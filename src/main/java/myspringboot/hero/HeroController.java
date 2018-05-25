@@ -4,21 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping(value = "/heroes")
 public class HeroController {
 
 	private List<Hero> heros = new ArrayList<>();	
 	
-	//private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	HeroController() {
 		buildHeros();
@@ -26,6 +27,7 @@ public class HeroController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public List<Hero> getHeros() {
+		logger.debug("목록조회");
 		return this.heros;
 	}
 
@@ -41,6 +43,7 @@ public class HeroController {
 		 * findfirst() => Hero 반환
 		 * orElse(값) -> 없는 경우 디폴트 값 설정
 		 */
+		logger.debug("상세조회 : " + id);
 		return this.heros.stream().filter(h -> h.getId() == id).findFirst().orElse(null);
 	}
 
